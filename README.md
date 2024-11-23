@@ -4,3 +4,4 @@ Test sketches and modifications for an M-O build based on Matthew Zwarts' files 
 
 Contents:
 * [warning_light_test](https://github.com/shashachu/M-O/tree/main/warning_light_test) - Standalone warning light test
+* [motor_test](https://github.com/shashachu/M-O/tree/main/motor_test) - Standalone motor test
