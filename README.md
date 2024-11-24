@@ -5,6 +5,7 @@ Test sketches and modifications for an M-O build based on Matthew Zwarts' files 
 # Contents:
 * [warning_light_test](https://github.com/shashachu/M-O/tree/main/warning_light_test) - Standalone warning light test
 * [motor_test](https://github.com/shashachu/M-O/tree/main/motor_test) - Standalone motor test
+* [fs-ia6b_test](https://github.com/shashachu/M-O/tree/main/fs-ia6b_test/) - Standalone RC transmitter/receiver test
 
 # Planned Pin Assignments (Nano)
 
@@ -15,6 +16,11 @@ RC Receiver
 * D10 - RC Ch4
 * D11 - RC Ch5
 * D12 - RC Ch6
+
+Motor Driver
+* A0
+* A1
+* A2
 
 PCA9685
 * A4 (SDA)
@@ -27,3 +33,5 @@ DFPlayerMini
 Volume Control
 * A6
 
+Warning Light LEDs
+* D2
