@@ -1,37 +1,42 @@
+/**
+ * Standalone test for DFPlayerMini, with volume control driven from a potentiometer.
+ *
+ * Note: Format MicroSD card as FAT32. Filenames are 1-based, 4-digit numbers. e.g. 0001.wav. Despite what the docs say,
+ * I had to copy them into the root of the card, not a folder named mp3/.
+ *
+ * Note: Connect ground to left/counterclockwise pin of potentiometer, or else values will be reversed.
+ *
+ */
+
 #include "DFRobotDFPlayerMini.h"
 #include <SoftwareSerial.h>
 
-const int DFPLAYER_PIN = 6;
+const int DFPLAYER_PIN_RX = 10;
+const int DFPLAYER_PIN_TX = 11;
 const int SWITCH_PIN = 2;
+const int VOLUME_PIN = A6;
 
-int switchState = 0;
-
-SoftwareSerial mySerial(10, 11); // RX, TX for DFPlayer Mini
+SoftwareSerial mySerial(DFPLAYER_PIN_RX, DFPLAYER_PIN_TX); // RX, TX for DFPlayer Mini
 DFRobotDFPlayerMini myDFPlayer;
 
 void setup() {
-  pinMode(SWITCH_PIN, INPUT_PULLUP); // Use internal pull-up resistor
   mySerial.begin(9600);
+  Serial.begin(115200);
+  Serial.println("Begin DFPlayerMini test");
+  delay(2000);
   if (!myDFPlayer.begin(mySerial)) {
-    Serial.println(F("Error initializing DFPLayer!"));
+    Serial.println(F("Error initializing DFPlayer!"));
     while (true); // Error initializing DFPlayer Mini
   }
   Serial.println(F("DFPlayerMini is online"));
-  myDFPlayer.volume(15); // Initial volume (0-30)
 }
 
 void loop() {
-  int potValue = analogRead(A0); // Read potentiometer
+  int potValue = analogRead(VOLUME_PIN); // Read potentiometer
   Serial.print(F("potValue: ")); Serial.println((String)potValue);
   int volume = map(potValue, 0, 1023, 0, 30); // Map potentiometer to volume range
   Serial.print("volume: "); Serial.println((String)volume);
-  myDFPlayer.volume(volume); // Set volume
-
-  switchState = digitalRead(SWITCH_PIN);
-
-  if (switchState == LOW) { // Button is pressed
-    myDFPlayer.play(1);
-  }
-
-  delay(100);
+  myDFPlayer.volume(volume);
+  myDFPlayer.play(1);
+  delay(5000);
 }
