@@ -6,6 +6,7 @@ Test sketches and modifications for an M-O build based on Matthew Zwarts' files 
 * [warning_light_test](https://github.com/shashachu/M-O/tree/main/warning_light_test) - Standalone warning light test
 * [motor_test](https://github.com/shashachu/M-O/tree/main/motor_test) - Standalone motor test
 * [fs-ia6b_test](https://github.com/shashachu/M-O/tree/main/fs-ia6b_test/) - Standalone RC transmitter/receiver test
+* [dfplayermini_test](https://github.com/shashachu/M-O/tree/main/dfplayermini_test/) - Standalone DFPlayerMini test, with potentiometer for volume control
 
 # Planned Pin Assignments (Nano)
 
@@ -17,7 +18,7 @@ RC Receiver
 * D11 - RC Ch5
 * D12 - RC Ch6
 
-Motor Driver
+Motor Driver (As digital pins)
 * A0
 * A1
 * A2
@@ -27,8 +28,8 @@ PCA9685
 * A5 (SCL)
 
 DFPlayerMini
-* D5 (TX)
-* D6 (RX)
+* D5 (RX, TX of DFPlayerMini)
+* D6 (TX, RX of DFPlayerMini)
 
 Volume Control
 * A6
