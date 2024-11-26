@@ -7,6 +7,7 @@ Test sketches and modifications for an M-O build based on Matthew Zwarts' files 
 * [motor_test](https://github.com/shashachu/M-O/tree/main/motor_test) - Standalone motor test
 * [fs-ia6b_test](https://github.com/shashachu/M-O/tree/main/fs-ia6b_test/) - Standalone RC transmitter/receiver test
 * [dfplayermini_test](https://github.com/shashachu/M-O/tree/main/dfplayermini_test/) - Standalone DFPlayerMini test, with potentiometer for volume control
+* [tft_test](https://github.com/shashachu/M-O/tree/main/tft_test) - Standalone TFT screen test
 
 # Planned Pin Assignments (Nano)
 
