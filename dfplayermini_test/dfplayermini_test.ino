@@ -6,6 +6,8 @@
  *
  * Note: Connect ground to left/counterclockwise pin of potentiometer, or else values will be reversed.
  *
+ * Note: DFPlayerMini and Arduino RX/TX pins are swapped. RX of DFPlayerMini goes to TX of Arduino, and vice versa. 1k resistor should also 
+ * be connected in serial with the DFPlayerMini's RX pin.
  */
 
 #include "DFRobotDFPlayerMini.h"
