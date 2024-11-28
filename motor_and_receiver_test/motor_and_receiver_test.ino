@@ -28,6 +28,7 @@ float CH2;
 int deadzonexy = 20;          // adust value to higher if motor not moving when stick moved
 
 void setup() {
+  Serial.begin(115200);
   pinMode(RC_CH2_INPUT, INPUT);
 
   enableInterrupt(RC_CH2_INPUT, calc_ch2, CHANGE);
