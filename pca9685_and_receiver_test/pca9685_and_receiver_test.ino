@@ -81,6 +81,10 @@ void steering() {
   CH1 = inch1;
   CH1 = constrain(CH1, 1000, 2000);
   ServoSteeringPos = map(CH1, 1000, 2000, steeringmin, steeringmax);
+  // Reduce jitter
+  if (ServoSteeringPos == 89 || ServoSteeringPos == 91) {
+    ServoSteeringPos = 90;
+  }
   SteeringServo.setSpeed(150);                                        // adjust this value in degrees per second to speed up or slow down the servo motion
   SteeringServo.easeTo(ServoSteeringPos);
 }
