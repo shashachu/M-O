@@ -7,7 +7,11 @@ Test sketches and modifications for an M-O build based on Matthew Zwarts' files 
 * [motor_test](https://github.com/shashachu/M-O/tree/main/motor_test) - Standalone motor test
 * [fs-ia6b_test](https://github.com/shashachu/M-O/tree/main/fs-ia6b_test/) - Standalone RC transmitter/receiver test
 * [dfplayermini_test](https://github.com/shashachu/M-O/tree/main/dfplayermini_test/) - Standalone DFPlayerMini test, with potentiometer for volume control
-* [tft_test](https://github.com/shashachu/M-O/tree/main/tft_test) - Standalone TFT screen test
+* [tft_espi_test](https://github.com/shashachu/M-O/tree/main/tft_espi_test) - Standalone test driving 2 TFT screens with one ESP32 board
+* [pca9685_test](https://github.com/shashachu/M-O/tree/main/pca9685_test) - Standalone test moving 2 servos with a PCA9685
+* [pca9685_and_receiver_test](https://github.com/shashachu/M-O/tree/main/pca9685_and_receiver_test) - Standalone test with a PCA9685 moving two servos with an RC transmitter
+* [motor_and_receiver_test](https://github.com/shashachu/M-O/tree/main/motor_and_receiver_test) - Standalone test driving the motor forwards and backwards with an RC transmitter
+* [vrb_mapping_test](https://github.com/shashachu/M-O/tree/main/vrb_mapping_test) - Test mapping the VRB value to M-O's eye expressions.
 
 # Planned Pin Assignments (Nano)
 
