@@ -12,6 +12,7 @@ Test sketches and modifications for an M-O build based on Matthew Zwarts' files 
 * [pca9685_and_receiver_test](https://github.com/shashachu/M-O/tree/main/pca9685_and_receiver_test) - Standalone test with a PCA9685 moving two servos with an RC transmitter
 * [motor_and_receiver_test](https://github.com/shashachu/M-O/tree/main/motor_and_receiver_test) - Standalone test driving the motor forwards and backwards with an RC transmitter
 * [vrb_mapping_test](https://github.com/shashachu/M-O/tree/main/vrb_mapping_test) - Test mapping the VRB value to M-O's eye expressions.
+* [happy_eye_test](https://github.com/shashachu/M-O/tree/main/happy_eye_test) - Sketch for drawing the happy eye faster (using drawFastHLine)
 
 # Planned Pin Assignments (Nano)
 
