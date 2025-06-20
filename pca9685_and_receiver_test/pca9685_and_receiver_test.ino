@@ -52,10 +52,10 @@ void setup() {
   Wire.begin();
   SteeringServo.attach(Steering_PIN, START_DEGREE_VALUE);
   HeadTiltServo.attach(HeadTilt_PIN, START_DEGREE_VALUE);
-  SteeringServo.setEasingType(EASE_SINE_IN_OUT);
-  HeadTiltServo.setEasingType(EASE_SINE_IN_OUT);
-  SteeringServo.setSpeed(100);
-  HeadTiltServo.setSpeed(100);
+  SteeringServo.setEasingType(EASE_LINEAR);
+  HeadTiltServo.setEasingType(EASE_LINEAR);
+  SteeringServo.setSpeed(300);
+  HeadTiltServo.setSpeed(300);
   delay(1000);
 
   pinMode(RC_CH1_INPUT, INPUT);
@@ -74,9 +74,10 @@ void loop() {
   inch1 = rc_values[RC_CH1]; // read and store channel value from receiver
   inch3 = rc_values[RC_CH3];
   
-  text();
+  //text();
 }
 
+static int lastSteeringPos = -1;
 void steering() {
   CH1 = inch1;
   CH1 = constrain(CH1, 1000, 2000);
@@ -85,16 +86,22 @@ void steering() {
   if (ServoSteeringPos == 89 || ServoSteeringPos == 91) {
     ServoSteeringPos = 90;
   }
-  SteeringServo.setSpeed(150);                                        // adjust this value in degrees per second to speed up or slow down the servo motion
-  SteeringServo.easeTo(ServoSteeringPos);
+  if (ServoSteeringPos != lastSteeringPos) {
+    SteeringServo.write(ServoSteeringPos);
+    ServoSteeringPos = lastSteeringPos;
+  }
 }
+
+static int lastTiltPos = -1;
 
 void headtilt() {
   CH3 = inch3;
   CH3 = constrain(CH3, 1000, 2000);
   ServoTiltHeadPos = map(CH3, 1000, 2000, headtiltmin, headtiltmax);
-  HeadTiltServo.setSpeed(150);                                        // adjust this value in degrees per second to speed up or slow down the servo motion
-  HeadTiltServo.easeTo(ServoTiltHeadPos);
+  if (ServoTiltHeadPos != lastTiltPos) {
+    HeadTiltServo.write(ServoTiltHeadPos);
+    ServoTiltHeadPost = lastTitlePos;
+  }
 }
 
 // Below functions are to read the analog inputs and store the values from the RC receiver
