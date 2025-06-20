@@ -11,6 +11,8 @@
  * Class to encapsulate config/control of a servo controlled via RC. Created with the help of ChatGPT + Claude
  */
 
+#define START_ANGLE  90
+
 struct ServoConfig {
   uint8_t channel;
   uint8_t pcaPin;
@@ -45,14 +47,13 @@ public:
   }
 
   void attach() {
-    // Attach servo and immediately set to center of its configured range
-    servo.attach(config.pcaPin, 90);
+    servo.attach(config.pcaPin, START_ANGLE);
     pinMode(config.inputPin, INPUT);
     
-    delay(200);
+    simDelay(200);
 
     // Update our tracking variables
-    lastAngle = 90;
+    lastAngle = START_ANGLE;
     isInitialized = true;
   }
 

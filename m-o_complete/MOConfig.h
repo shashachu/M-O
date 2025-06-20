@@ -1,9 +1,8 @@
 #ifndef MOCONFIG_H
 #define MOCONFIG_H
 
-#define START_DEGREE_VALUE  90
-#define DEFAULT_SPEED 300
-#define DEFAULT_EASING EASE_LINEAR
+#define DEFAULT_SERVO_SPEED 300
+#define DEFAULT_SERVO_EASING EASE_LINEAR
 
 // Smoothing settings - more aggressive for steering/turning servos
 #define DEFAULT_FILTER_SIZE 8
@@ -15,43 +14,82 @@
 #define TILT_DEADBAND 2
 #define TILT_SMOOTHING_FACTOR 0.2f
 
+// Steering servo configuration
+#define STEERING_CHANNEL 0
+#define STEERING_PCA_PIN 0
+#define STEERING_INPUT_PIN 7
+#define STEERING_MIN_ANGLE 15
+#define STEERING_MAX_ANGLE 165
+
+// Head Tilt servo configuration
+#define HEAD_TILT_CHANNEL 2
+#define HEAD_TILT_PCA_PIN 1
+#define HEAD_TILT_INPUT_PIN 9
+#define HEAD_TILT_MIN_ANGLE 60
+#define HEAD_TILT_MAX_ANGLE 115
+
+// Head Turn servo configuration
+#define HEAD_TURN_CHANNEL 3
+#define HEAD_TURN_PCA_PIN 2
+#define HEAD_TURN_INPUT_PIN 10
+#define HEAD_TURN_MIN_ANGLE 15
+#define HEAD_TURN_MAX_ANGLE 165
+
+// Warning Light configuration
+#define WARNING_LIGHT_CHANNEL 5
+#define WARNING_LIGHT_NEOPIXEL_PIN 2
+#define WARNING_LIGHT_NUM_LEDS 9
+#define WARNING_LIGHT_SERVO_PCA_PIN 3
+#define WARNING_LIGHT_LOWERED_ANGLE 0
+#define WARNING_LIGHT_RAISED_ANGLE 180
+
 ServoConfig steeringConfig = { 
-  0, /* channel */
-  0, /* pcaPin */
-  7, /* inputPin */
-  15, /* minAngle */
-  165, /* maxAngle */
-  DEFAULT_SPEED,
-  DEFAULT_EASING,
+  STEERING_CHANNEL,
+  STEERING_PCA_PIN,
+  STEERING_INPUT_PIN,
+  STEERING_MIN_ANGLE,
+  STEERING_MAX_ANGLE,
+  DEFAULT_SERVO_SPEED,
+  DEFAULT_SERVO_EASING,
   DEFAULT_FILTER_SIZE,
   DEFAULT_DEADBAND,
   DEFAULT_SMOOTHING_FACTOR
 };
 
 ServoConfig headTiltConfig = { 
-  2, /* channel */
-  1, /* pcaPin */
-  9, /* inputPin */
-  60, /* minAngle */
-  115, /* maxAngle */
-  DEFAULT_SPEED,
-  DEFAULT_EASING,
+  HEAD_TILT_CHANNEL,
+  HEAD_TILT_PCA_PIN,
+  HEAD_TILT_INPUT_PIN,
+  HEAD_TILT_MIN_ANGLE,
+  HEAD_TILT_MAX_ANGLE,
+  DEFAULT_SERVO_SPEED,
+  DEFAULT_SERVO_EASING,
   TILT_FILTER_SIZE,
   TILT_DEADBAND,
   TILT_SMOOTHING_FACTOR
 };
 
 ServoConfig headTurnConfig = {
-  3, /* channel */
-  2, /* pcaPin */
-  10, /* inputPin */
-  15, /* minAngle */
-  165, /* maxAngle */
-  DEFAULT_SPEED,
-  DEFAULT_EASING,
+  HEAD_TURN_CHANNEL,
+  HEAD_TURN_PCA_PIN,
+  HEAD_TURN_INPUT_PIN,
+  HEAD_TURN_MIN_ANGLE,
+  HEAD_TURN_MAX_ANGLE,
+  DEFAULT_SERVO_SPEED,
+  DEFAULT_SERVO_EASING,
   DEFAULT_FILTER_SIZE,
   DEFAULT_DEADBAND,
   DEFAULT_SMOOTHING_FACTOR
+};
+
+WarningLightConfig warningLightConfig = {
+  WARNING_LIGHT_CHANNEL,
+  WARNING_LIGHT_NEOPIXEL_PIN,
+  WARNING_LIGHT_NUM_LEDS,
+  WARNING_LIGHT_SERVO_PCA_PIN,
+  DEFAULT_SERVO_SPEED,
+  WARNING_LIGHT_LOWERED_ANGLE,
+  WARNING_LIGHT_RAISED_ANGLE
 };
 
 #endif // MOCONFIG_H
