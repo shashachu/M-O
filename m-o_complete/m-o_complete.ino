@@ -39,9 +39,13 @@ void setup() {
     s->configureEasing();
   }
 
+  //delay(1000);
+
   enableInterrupt(servos[0]->getInputPin(), isr_ch1, CHANGE);
   enableInterrupt(servos[1]->getInputPin(), isr_ch3, CHANGE);
   enableInterrupt(servos[2]->getInputPin(), isr_ch4, CHANGE);
+
+  //Serial.println("FOO");
 }
 
 void loop() {

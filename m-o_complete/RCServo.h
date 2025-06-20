@@ -2,6 +2,7 @@
 #define RCSERVO_H
 
 #define USE_PCA9685_SERVO_EXPANDER
+// #define DEBUG_RCSERVO  // Uncomment to enable debug output
 
 #include <Wire.h>
 #include <ServoEasing.hpp>
@@ -33,9 +34,10 @@ public:
     rawPulse(1500),
     smoothedPulse(1500.0),
     filterIndex(0),
-    filterSum(0) {
+    filterSum(0),
+    isInitialized(false) {
       
-    // Initialize moving average filter
+    // Initialize moving average filter with neutral position
     for (int i = 0; i < MAX_FILTER_SIZE; i++) {
       pulseHistory[i] = 1500;
     }
@@ -43,8 +45,15 @@ public:
   }
 
   void attach() {
+    // Attach servo and immediately set to center of its configured range
     servo.attach(config.pcaPin, 90);
     pinMode(config.inputPin, INPUT);
+    
+    delay(200);
+
+    // Update our tracking variables
+    lastAngle = 90;
+    isInitialized = true;
   }
 
   void configureEasing(uint8_t speed = 300, uint8_t easing = EASE_LINEAR) {
@@ -53,6 +62,11 @@ public:
   }
 
   void updateFromRaw() {
+    // Don't process until properly initialized
+    if (!isInitialized) {
+      return;
+    }
+    
     // Apply smoothing to raw pulse
     uint16_t smoothedValue = applySmoothingFilters();
     
@@ -62,13 +76,20 @@ public:
     
     // Apply deadband - only move if change is significant
     if (abs(angle - lastAngle) >= config.deadband) {
+#ifdef DEBUG_RCSERVO
+      Serial.print("Filtered angle: "); Serial.println(angle);
+#endif
       servo.write(angle);
       lastAngle = angle;
     }
   }
 
   void setRawPulse(uint16_t pulse) {
-    rawPulse = pulse;
+    // Constrain input to valid RC range
+    rawPulse = constrain(pulse, 1000, 2000);
+#ifdef DEBUG_RCSERVO
+    Serial.print("Raw pulse: "); Serial.println(rawPulse);
+#endif
   }
 
   uint8_t getInputPin() const {
@@ -94,6 +115,7 @@ private:
   ServoConfig config;
   int lastAngle;
   uint16_t rawPulse;
+  bool isInitialized;
   
   // Smoothing variables
   float smoothedPulse;                    // Exponentially smoothed value
