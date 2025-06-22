@@ -1,6 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+// Non-blocking delay
 void simDelay(long period){
   long delayMillis = millis() + period;
   while (millis() <= delayMillis)

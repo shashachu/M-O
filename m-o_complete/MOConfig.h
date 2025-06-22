@@ -15,29 +15,30 @@
 #define TILT_SMOOTHING_FACTOR 0.2f
 
 // Steering servo configuration
-#define STEERING_CHANNEL 0
-#define STEERING_PCA_PIN 0
-#define STEERING_INPUT_PIN 7
+#define STEERING_CHANNEL 1 // 1-based
+#define STEERING_PCA_PIN 0 // 0-based
+#define STEERING_INPUT_PIN 2
 #define STEERING_MIN_ANGLE 15
 #define STEERING_MAX_ANGLE 165
 
 // Head Tilt servo configuration
-#define HEAD_TILT_CHANNEL 2
+#define HEAD_TILT_CHANNEL 3
 #define HEAD_TILT_PCA_PIN 1
-#define HEAD_TILT_INPUT_PIN 9
+#define HEAD_TILT_INPUT_PIN 4
 #define HEAD_TILT_MIN_ANGLE 60
 #define HEAD_TILT_MAX_ANGLE 115
 
 // Head Turn servo configuration
-#define HEAD_TURN_CHANNEL 3
+#define HEAD_TURN_CHANNEL 4
 #define HEAD_TURN_PCA_PIN 2
-#define HEAD_TURN_INPUT_PIN 10
+#define HEAD_TURN_INPUT_PIN 5
 #define HEAD_TURN_MIN_ANGLE 15
 #define HEAD_TURN_MAX_ANGLE 165
 
 // Warning Light configuration
 #define WARNING_LIGHT_CHANNEL 5
-#define WARNING_LIGHT_NEOPIXEL_PIN 2
+#define WARNING_LIGHT_INPUT_PIN 6
+#define WARNING_LIGHT_NEOPIXEL_PIN A2
 #define WARNING_LIGHT_NUM_LEDS 9
 #define WARNING_LIGHT_SERVO_PCA_PIN 3
 #define WARNING_LIGHT_LOWERED_ANGLE 0
@@ -84,6 +85,7 @@ ServoConfig headTurnConfig = {
 
 WarningLightConfig warningLightConfig = {
   WARNING_LIGHT_CHANNEL,
+  WARNING_LIGHT_INPUT_PIN,
   WARNING_LIGHT_NEOPIXEL_PIN,
   WARNING_LIGHT_NUM_LEDS,
   WARNING_LIGHT_SERVO_PCA_PIN,

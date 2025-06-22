@@ -2,48 +2,82 @@
 #define WARNINGLIGHT_H
 
 #define USE_PCA9685_SERVO_EXPANDER
+// #define DEBUG_WARNING_LIGHT  // Uncomment to enable debug output
 
 #include "Utils.h"
+#include "RCInputDevice.h"
 #include <Wire.h>
 #include <ServoEasing.hpp>
 #include <Adafruit_NeoPixel.h>
 
 struct WarningLightConfig {
+  // The RC channel that will control this warning light. 1-based
   uint8_t channel;
+  // The pin on the Arduino that this channel is connected to
+  uint8_t inputPin;
+  // The pin on the Arduino the NeoPixel strip is connected to
   uint8_t neoPixelPin;
+  // The number of LEDs in the NeoPixel trip
   uint8_t numLEDs;  
+  // The pin this servo is attached to on the PCA expander board. 0-based.
   uint8_t servoPcaPin;
+  // The speed the servo should move at
   uint8_t servoSpeed;
+  // The servo angle for the lowered position
   uint8_t loweredAngle;
+  // The servo angle for the raised position
   uint8_t raisedAngle;  
 };
 
-class WarningLightController {
+class WarningLightController : public RCInputDevice {
 public:
   WarningLightController(WarningLightConfig config)
     : config(config), raised(false) {
       strip = Adafruit_NeoPixel(config.numLEDs, config.neoPixelPin, NEO_GRB + NEO_KHZ800);
     }
 
-  void attach() {
-    // Attach servo and immediately set to center of its configured range
+  void attach() override {
+    // Attach servo and set to lowered position
     servo.attach(config.servoPcaPin, config.loweredAngle);
     simDelay(500);
     servo.detach();
     strip.begin();
   }
 
-  void toggle() {
-    raised = !raised;
-    if (raised) {
-      servo.attach(config.servoPcaPin, config.raisedAngle);
-    } else {
-      servo.attach(config.servoPcaPin, config.loweredAngle);
-      turnOffSiren();
+  void updateFromRC(uint16_t pulse) override {
+#ifdef DEBUG_WARNING_LIGHT
+    Serial.print("Raw pulse: "); Serial.println(pulse);
+#endif
+    bool shouldRaise = pulse > 1500;
+#ifdef DEBUG_WARNING_LIGHT
+    Serial.print("shouldRaise: "); Serial.print(shouldRaise); Serial.print(" raised: "); Serial.println(raised);
+#endif
+    if (raised != shouldRaise) {
+      raised = shouldRaise;
+      if (raised) {
+        servo.attach(config.servoPcaPin, config.raisedAngle);
+      } else {
+        servo.attach(config.servoPcaPin, config.loweredAngle);
+        turnOffSiren();
+      }
+      simDelay(500);
+      // Detach the servo so it doesn't idle/tick
+      servo.detach();
     }
-    simDelay(500);
-    // Detach the servo so it doesn't idle/tick
-    servo.detach();
+  }
+
+  void loop() {
+    if (raised) {
+      runSirenEffect();
+    }
+  }
+
+  uint8_t getInputPin() const override{
+    return config.inputPin;
+  }
+
+  uint8_t getRCChannel() const override {
+    return config.channel - 1;
   }
 
 private:

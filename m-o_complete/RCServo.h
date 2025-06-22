@@ -4,6 +4,7 @@
 #define USE_PCA9685_SERVO_EXPANDER
 // #define DEBUG_RCSERVO  // Uncomment to enable debug output
 
+#include "RCInputDevice.h"
 #include <Wire.h>
 #include <ServoEasing.hpp>
 
@@ -27,7 +28,7 @@ struct ServoConfig {
   float smoothingFactor;   // Exponential smoothing (0.1-0.5 typical)
 };
 
-class RCServo {
+class RCServo : public RCInputDevice {
 public:
   RCServo(ServoConfig config)
     : 
@@ -46,9 +47,11 @@ public:
     filterSum = 1500 * config.filterSize;
   }
 
-  void attach() {
+  void attach() override {
     servo.attach(config.pcaPin, START_ANGLE);
     pinMode(config.inputPin, INPUT);
+    servo.setSpeed(config.speed);
+    servo.setEasingType(config.easing);
     
     simDelay(200);
 
@@ -57,12 +60,13 @@ public:
     isInitialized = true;
   }
 
-  void configureEasing(uint8_t speed = 300, uint8_t easing = EASE_LINEAR) {
-    servo.setSpeed(speed);
-    servo.setEasingType(easing);
-  }
+  void updateFromRC(uint16_t pulse) override {
+    // Constrain input to valid RC range
+    rawPulse = constrain(pulse, 1000, 2000);
+#ifdef DEBUG_RCSERVO
+    Serial.print("Raw pulse: "); Serial.println(rawPulse);
+#endif
 
-  void updateFromRaw() {
     // Don't process until properly initialized
     if (!isInitialized) {
       return;
@@ -85,20 +89,12 @@ public:
     }
   }
 
-  void setRawPulse(uint16_t pulse) {
-    // Constrain input to valid RC range
-    rawPulse = constrain(pulse, 1000, 2000);
-#ifdef DEBUG_RCSERVO
-    Serial.print("Raw pulse: "); Serial.println(rawPulse);
-#endif
-  }
-
-  uint8_t getInputPin() const {
+  uint8_t getInputPin() const override {
     return config.inputPin;
   }
 
-  uint8_t getRCChannel() const {
-    return config.channel;
+  uint8_t getRCChannel() const override {
+    return config.channel - 1;
   }
 
   // Get current smoothed values for debugging
